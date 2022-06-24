@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'chats/chats_tab.dart';
+
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -19,14 +21,14 @@ class MyHomePage extends StatelessWidget {
               icon:  const Icon(Icons.search),
               onPressed: (){},)),
             
-            // Widget for implementing the three-dot menu
+            
             PopupMenuButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
               ),
               itemBuilder: (context) {
                 return [
-                  // In this case, we need 5 popupmenuItems one for each option.
+                  
                   const PopupMenuItem(child: Text('New Group')),
                   const PopupMenuItem(child: Text('New Broadcast')),
                   const PopupMenuItem(child: Text('Linked Devices')),
@@ -66,10 +68,10 @@ class MyHomePage extends StatelessWidget {
         body: const TabBarView(
           children: [
             Center(child: Text('This feature is coming soon')),
+             ChatsTab(),
             Center(child: Text('This feature is coming soon')),
             Center(child: Text('This feature is coming soon')),
-            Center(child: Text('This feature is coming soon')),
-            // ChatsTab(),
+           
             // StatusTab(),
             // CallTab()
           ]
