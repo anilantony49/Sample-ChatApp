@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp/callls/call_page.dart';
 import 'package:whatsapp/status/status_page.dart';
 
 import 'chats/chats_tab.dart';
@@ -71,8 +72,7 @@ class MyHomePage extends StatelessWidget {
             Center(child: Text('This feature is coming soon')),
             ChatsTab(),
             StatusTab(),
-            Center(child: Text('This feature is coming soon')),
-           
+            CallTab() 
           ]
         
         ),
