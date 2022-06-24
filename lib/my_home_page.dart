@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp/status/status_page.dart';
 
 import 'chats/chats_tab.dart';
 
@@ -68,12 +69,10 @@ class MyHomePage extends StatelessWidget {
         body: const TabBarView(
           children: [
             Center(child: Text('This feature is coming soon')),
-             ChatsTab(),
-            Center(child: Text('This feature is coming soon')),
+            ChatsTab(),
+            StatusTab(),
             Center(child: Text('This feature is coming soon')),
            
-            // StatusTab(),
-            // CallTab()
           ]
         
         ),

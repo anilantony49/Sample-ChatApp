@@ -13,7 +13,9 @@ class SingleChatWidget extends StatelessWidget {
     this.chatMessage,
     this.chatTitle,
     this.seenStatusColor,
-    this.assetsimage, this.messeges, this.dateOrtime,
+    this.assetsimage,
+    this.messeges,
+    this.dateOrtime,
   }) : super(key: key);
 
   @override
@@ -26,47 +28,43 @@ class SingleChatWidget extends StatelessWidget {
         ),
         Expanded(
           child: ListTile(
-              title: Text('$chatTitle',
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
-              subtitle: Row(children: [
-                Icon(
-                  seenStatusColor == Colors.blue ? Icons.done_all : Icons.done,
-                  size: 15,
-                  color: seenStatusColor,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 6.0),
-                    child: Text(
-                      '$chatMessage',
-                      style: const TextStyle(overflow: TextOverflow.ellipsis),
-                    ),
-                  ),
-                ),
-              ]),
-              trailing: Column(
-                children:  [
-                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      dateOrtime!,
-                    ),
-                  ),
-                  CircleAvatar(
-          backgroundColor: Colors.green,
-          radius: 10,
-          child: Stack(
-            children: [
-              Text(messeges!)
-            ],
-          ),
-               ),
-                  
-                ],
+            title: Text('$chatTitle',
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            subtitle: Row(children: [
+              Icon(
+                seenStatusColor == Colors.blue ? Icons.done_all : Icons.done,
+                size: 15,
+                color: seenStatusColor,
               ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 6.0),
+                  child: Text(
+                    '$chatMessage',
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+              ),
+            ]),
+            trailing: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    dateOrtime!,
+                  ),
+                ),
+                CircleAvatar(
+                  backgroundColor: Colors.green,
+                  radius: 10,
+                  child: Stack(
+                    children: [Text(messeges!)],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        
       ],
     );
   }
