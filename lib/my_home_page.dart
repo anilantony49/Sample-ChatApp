@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/Cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:whatsapp/callls/call_page.dart';
 import 'package:whatsapp/status/status_page.dart';
-import 'chat_room.dart';
 import 'chats/chats_tab.dart';
 import 'methods.dart';
 
@@ -17,13 +15,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Map<String, dynamic>? userMap;
-  bool _searching = false;
-  bool isLoading = false;
-  final TextEditingController _search = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  late TabController _tabController;
+  // Map<String, dynamic>? userMap;
+  // bool _searching = false;
+  // bool isLoading = false;
+  // final TextEditingController _search = TextEditingController();
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // late TabController _tabController;
 
 //    void initState() {
 //   super.initState();
@@ -36,40 +34,40 @@ class _MyHomePageState extends State<MyHomePage> {
   //   super.dispose();
   // }
 
-  String chatRoomId(String user1, String user2) {
-    if (user1[0].toLowerCase().codeUnits[0] >
-        user2.toLowerCase().codeUnits[0]) {
-      return "$user1$user2";
-    } else {
-      return "$user2$user1";
-    }
-  }
+  // String chatRoomId(String user1, String user2) {
+  //   if (user1[0].toLowerCase().codeUnits[0] >
+  //       user2.toLowerCase().codeUnits[0]) {
+  //     return "$user1$user2";
+  //   } else {
+  //     return "$user2$user1";
+  //   }
+  // }
 
-  void onSearch() async {
-    final size = MediaQuery.of(context).size;
-    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // void onSearch() async {
+  //   final size = MediaQuery.of(context).size;
+  //   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    setState(() {
-      isLoading = true;
-    });
+  //   setState(() {
+  //     isLoading = true;
+  //   });
 
-    await _firestore
-        .collection('users')
-        .where("email", isEqualTo: _search.text)
-        .get()
-        .then((value) {
-      setState(() {
-        userMap = value.docs[0].data();
-        isLoading = false;
-      });
+  //   await _firestore
+  //       .collection('users')
+  //       .where("email", isEqualTo: _search.text)
+  //       .get()
+  //       .then((value) {
+  //     setState(() {
+  //       userMap = value.docs[0].data();
+  //       isLoading = false;
+  //     });
 
-      print("fa");
-    });
-  }
+  //     print("fa");
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return DefaultTabController(
       length: 3,

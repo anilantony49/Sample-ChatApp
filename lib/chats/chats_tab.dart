@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/Cupertino.dart';
 import 'package:whatsapp/chat_room.dart';
-import 'package:whatsapp/chats/single_chat_widget.dart';
-import '../methods.dart';
+
 
 class ChatsTab extends StatefulWidget {
   ChatsTab({Key? key}) : super(key: key);
@@ -37,6 +36,7 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('r');
     if (state == AppLifecycleState.resumed) {
       // online
       setStatus("Online");
@@ -79,8 +79,8 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-             actions: [
+        appBar: AppBar(
+          actions: [
             Tooltip(
               message: "Search",
               child: IconButton(
@@ -93,7 +93,6 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
                   if (_search.text.isNotEmpty) {
                     onSearch();
 
-                    
                     // ChatsTab();
                   } else {
                     return;
@@ -101,26 +100,6 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
                 },
               ),
             ),
-            // PopupMenuButton(
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(18),
-            //   ),
-            //   itemBuilder: (context) {
-            //     return [
-            //       const PopupMenuItem(child: Text('New Group')),
-            //       const PopupMenuItem(child: Text('New Broadcast')),
-            //       const PopupMenuItem(child: Text('Linked Devices')),
-            //       const PopupMenuItem(child: Text('Starred Messages')),
-            //       const PopupMenuItem(child: Text('Settings')),
-            //       PopupMenuItem(
-            //           child: TextButton(
-            //               onPressed: () {
-            //                 logOut(context);
-            //               },
-            //               child: Text("Log Out")))
-            //     ];
-            //   },
-            // ),
           ],
           backgroundColor: const Color(0xff128C7E),
           title: AnimatedSwitcher(
@@ -137,7 +116,7 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
                   )
                 : Text('WhatsApp'),
           ),
-      ),
+        ),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CupertinoScrollbar(
@@ -172,7 +151,8 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
                                                     userMap: userMap!,
                                                   )));
                                     },
-                                     trailing: const Icon(Icons.chat, color: Colors.black),
+                                    trailing: const Icon(Icons.chat,
+                                        color: Colors.black),
                                     leading: const Icon(Icons.account_box,
                                         color: Colors.black),
                                     title: Text(
@@ -185,16 +165,11 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
                                     ),
                                     subtitle: Text(userMap!['email']),
                                   )
-                                  
                                 : Container(), //
                           ],
                         ),
                 ],
               ),
-            )
-            
-            )
-            
-            );
+            )));
   }
 }
