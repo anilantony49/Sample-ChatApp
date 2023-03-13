@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/Cupertino.dart';
 import 'package:whatsapp/chat_room.dart';
 
-
 class ChatsTab extends StatefulWidget {
-  ChatsTab({Key? key}) : super(key: key);
-
   @override
   State<ChatsTab> createState() => _ChatsTabState();
 }
@@ -22,7 +19,7 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
-  void initstate() {
+  void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     setStatus("Online");
@@ -36,9 +33,9 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('r');
     if (state == AppLifecycleState.resumed) {
       // online
+
       setStatus("Online");
     } else {
       // offline
@@ -49,6 +46,7 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
   String chatRoomId(String user1, String user2) {
     if (user1[0].toLowerCase().codeUnits[0] >
         user2.toLowerCase().codeUnits[0]) {
+      
       return "$user1$user2";
     } else {
       return "$user2$user1";
@@ -103,7 +101,7 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
           ],
           backgroundColor: const Color(0xff128C7E),
           title: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             child: _searching
                 ? TextField(
                     controller: _search,
@@ -112,9 +110,9 @@ class _ChatsTabState extends State<ChatsTab> with WidgetsBindingObserver {
                       hintStyle: TextStyle(color: Colors.white54),
                       border: InputBorder.none,
                     ),
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   )
-                : Text('WhatsApp'),
+                : const Text('WhatsApp'),
           ),
         ),
         body: Padding(
