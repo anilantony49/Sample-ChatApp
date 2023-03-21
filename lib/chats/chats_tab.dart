@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/Cupertino.dart';
-import 'package:whatsapp/chat_room.dart';
+import 'package:whatsapp/chats/group_chats/chat_room.dart';
 
 class ChatsTab extends StatefulWidget {
   @override

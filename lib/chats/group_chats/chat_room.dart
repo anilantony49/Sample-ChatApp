@@ -153,7 +153,7 @@ class ChatRoom extends StatelessWidget {
                                     as Map<String, dynamic>;
                             return messages(
                               size,
-                              map,
+                              map,context
                             );
                           });
                     } else {
@@ -197,7 +197,7 @@ class ChatRoom extends StatelessWidget {
     );
   }
 
-  Widget messages(Size size, Map<String, dynamic> map) {
+  Widget messages(Size size, Map<String, dynamic> map,BuildContext context) {
     return map['type'] == "text"
         ? Container(
             width: size.width,
@@ -205,8 +205,8 @@ class ChatRoom extends StatelessWidget {
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: const Color(0xff128C7E)),
@@ -226,16 +226,22 @@ class ChatRoom extends StatelessWidget {
             alignment: map['sendby'] == _auth.currentUser!.displayName
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
-            child: Container(
-              height: size.height / 2.5,
-              width: size.width / 2,
-              alignment: Alignment.centerLeft,
-              child: map['message'] != ""
-                  ? Image.network(
-                      map['message'],
-                      fit: BoxFit.cover,
-                    )
-                  : CircularProgressIndicator(),
+            child: InkWell(
+              onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>ShowImage(imageUrl: map['message']))),
+              child: Container(
+                height: size.height / 2.5,
+                width: size.width / 2,
+                // padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(border: Border.all()),
+            
+                alignment: map['message']!= ""? null : Alignment.center,
+                child: map['message'] != ""
+                    ? Image.network(
+                        map['message'],
+                        fit: BoxFit.cover,
+                      )
+                    : CircularProgressIndicator(),
+              ),
             ),
           );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/Cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:whatsapp/callls/call_page.dart';
+import 'package:whatsapp/chats/group_chats/group_chat_screen.dart';
 import 'package:whatsapp/status/status_page.dart';
 import 'chats/chats_tab.dart';
 import 'methods.dart';
@@ -169,8 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
 
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.group), onPressed: () async {}),
-      ),
+            child: const Icon(Icons.group), onPressed: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const GroupChatHomeScreen())),
+      ),)
     );
   }
 }
