@@ -4,8 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -25,16 +24,15 @@ class ChatRoom extends StatelessWidget {
     ImagePicker _picker = ImagePicker();
     await _picker.pickImage(source: ImageSource.gallery).then((xFile) {
       if (xFile != null) {
-        print("t");
         imageFile = File(xFile.path);
-        print("o");
+
         uploadImage();
       }
     });
   }
 
   Future uploadImage() async {
-    String fileName = Uuid().v1();
+    String fileName = const Uuid().v1();
     int status = 1;
 
     await _firestore
@@ -49,14 +47,10 @@ class ChatRoom extends StatelessWidget {
       "time": FieldValue.serverTimestamp(),
     });
 
-   
-   
-    var ref = 
+    var ref =
         FirebaseStorage.instance.ref().child('images').child("$fileName.jpg");
-         
-       
+
     var uploadTask = await ref.putFile(imageFile!).catchError((error) async {
-     
       await _firestore
           .collection('chatroom')
           .doc(chatRoomId)
@@ -68,7 +62,6 @@ class ChatRoom extends StatelessWidget {
     });
 
     if (status == 1) {
-      print("k");
       String imageUrl = await uploadTask.ref.getDownloadURL();
       await _firestore
           .collection('chatroom')
@@ -106,22 +99,27 @@ class ChatRoom extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff128C7E),
         title: StreamBuilder<DocumentSnapshot>(
           stream:
               _firestore.collection("users").doc(userMap['uid']).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.data != null) {
-              return Container(
-                child: Column(
-                  children: [
-                    Text(userMap['name']),
-                    Text(
-                      snapshot.data!['status'],
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  ],
+              return ListTile(
+                title: Text(
+                  userMap['name'],
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w500),
                 ),
+                subtitle: Text(snapshot.data!['status'],
+                    style: const TextStyle(fontSize: 12, color: Colors.white)),
+                // style: const TextStyle(fontSize: 14) ,
+                // children: [
+                //   Text(userMap['name']),
+                //   Text(
+                //     snapshot.data!['status'],
+                //     style: const TextStyle(fontSize: 14),
+                //   ),
+                // ],
               );
             } else {
               return Container();
@@ -132,7 +130,7 @@ class ChatRoom extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: size.height / 1.25,
               width: size.width,
               child: StreamBuilder<QuerySnapshot>(
@@ -151,10 +149,7 @@ class ChatRoom extends StatelessWidget {
                             Map<String, dynamic> map =
                                 snapshot.data!.docs[index].data()
                                     as Map<String, dynamic>;
-                            return messages(
-                              size,
-                              map,context
-                            );
+                            return messages(size, map, context);
                           });
                     } else {
                       return Container();
@@ -165,13 +160,13 @@ class ChatRoom extends StatelessWidget {
               height: size.height / 10,
               width: size.width,
               alignment: Alignment.center,
-              child: Container(
+              child: SizedBox(
                 height: size.height / 12,
                 width: size.width / 1.1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: size.height / 17,
                       width: size.width / 1.3,
                       child: TextField(
@@ -197,7 +192,8 @@ class ChatRoom extends StatelessWidget {
     );
   }
 
-  Widget messages(Size size, Map<String, dynamic> map,BuildContext context) {
+  Widget messages(Size size, Map<String, dynamic> map, BuildContext context) {
+    //  final bool sentByCurrentUser = map['sendby'] == _auth.currentUser!.displayName;
     return map['type'] == "text"
         ? Container(
             width: size.width,
@@ -207,9 +203,23 @@ class ChatRoom extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
               margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: const Color(0xff128C7E)),
+              decoration: map['sendby'] == _auth.currentUser!.displayName
+                  ? const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(5),
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                      color: Color(0xff128C7E))
+                  : const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(15),
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                      color: Color(0xff128C7E)),
               child: Text(
                 map['message'],
                 style: const TextStyle(
@@ -217,8 +227,7 @@ class ChatRoom extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
               ),
-            ),
-          )
+            ))
         : Container(
             height: size.height / 2.5,
             width: size.width,
@@ -227,24 +236,33 @@ class ChatRoom extends StatelessWidget {
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
             child: InkWell(
-              onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>ShowImage(imageUrl: map['message']))),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => ShowImage(imageUrl: map['message']))),
               child: Container(
                 height: size.height / 2.5,
                 width: size.width / 2,
-                // padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(border: Border.all()),
-            
-                alignment: map['message']!= ""? null : Alignment.center,
-                child: map['message'] != ""
-                    ? Image.network(
-                        map['message'],
-                        fit: BoxFit.cover,
-                      )
-                    : CircularProgressIndicator(),
+                alignment: map['message'] != "" ? null : Alignment.center,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(5),
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                  child: map['message'] != ""
+                      ? Image.network(
+                          map['message'],
+                          fit: BoxFit.cover,
+                        )
+                      : const CircularProgressIndicator(),
+                ),
               ),
             ),
           );
   }
+  // Widget otherUserMessages(Size size, Map<String, dynamic> map, BuildContext context) {
+
+  // };
 }
 
 class ShowImage extends StatelessWidget {

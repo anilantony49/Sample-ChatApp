@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:whatsapp/login_screen.dart';
 
 Future<User?> createAccount(String name, String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
-
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   try {
@@ -58,7 +56,8 @@ Future logOut(BuildContext context) async {
 
   try {
     await _auth.signOut().then((value) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const LoginScreen()));
     });
   } catch (e) {
     print("error");

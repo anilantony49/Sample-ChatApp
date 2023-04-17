@@ -14,34 +14,37 @@ class GroupChatRoom extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: const Color(0xff128C7E),
-        title: Text("Group Name"),
+        backgroundColor: const Color(0xff128C7E),
+        title: const Text("Group Name"),
         actions: [
           IconButton(
               onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => GroupInfo())),
-              icon: Icon(Icons.more_vert))
+                  .push(MaterialPageRoute(builder: (_) => const GroupInfo())),
+              icon: const Icon(Icons.more_vert))
         ],
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          Container(
+          SizedBox(
             height: size.height / 1.27,
             width: size.width,
             child: ListView.builder(
-                itemCount: 1, itemBuilder: (context, index) {}),
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return null;
+                }),
           ),
           Container(
             height: size.height / 10,
             width: size.width,
             alignment: Alignment.center,
-            child: Container(
+            child: SizedBox(
               height: size.height / 12,
               width: size.width / 1.1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     height: size.height / 17,
                     width: size.width / 1.3,
                     child: TextField(
@@ -142,9 +145,8 @@ class GroupChatRoom extends StatelessWidget {
             ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
-        ;
       },
     );
   }

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:whatsapp/chats/chats_tab.dart';
 import 'package:whatsapp/create_account.dart';
 import 'package:whatsapp/methods.dart';
-import 'package:whatsapp/my_home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,10 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: isLoading
           ? Center(
-              child: Container(
+              child: SizedBox(
                 height: size.height / 20,
                 width: size.height / 20,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             )
           : SingleChildScrollView(
@@ -40,23 +37,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: size.width / 1.2,
                     child: IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.arrow_back_ios_new),
+                      icon: const Icon(Icons.arrow_back_ios_new),
                     ),
                   ),
                   SizedBox(
                     height: size.height / 50,
                   ),
-                  Container(
+                  SizedBox(
                     width: size.width / 1.3,
-                    child: Text(
+                    child: const Text(
                       "Welcome",
                       style:
                           TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: size.width / 1.3,
-                    child: Text(
+                    child: const Text(
                       "Sign in to continue!",
                       style: TextStyle(
                           color: Colors.grey,
@@ -87,9 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: size.height / 40,
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => CreateAccount())),
-                    child: Text(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => const CreateAccount())),
+                    child: const Text(
                       "Create Account",
                       style: TextStyle(
                           color: Colors.blue,
@@ -117,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 isLoading = false;
               });
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => MyHomePage()));
+                  context, MaterialPageRoute(builder: (_) => const HomeScreen()));
             } else {
               print("Login Failed");
               setState(() {
@@ -135,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: Colors.blue),
         alignment: Alignment.center,
-        child: Text(
+        child: const Text(
           "Login",
           style: TextStyle(
               color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
@@ -146,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget field(
       Size size, String hintText, IconData icon, TextEditingController cont) {
-    return Container(
+    return SizedBox(
       height: size.height / 14,
       width: size.width / 1.2,
       child: TextField(
@@ -154,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: InputDecoration(
             prefixIcon: Icon(icon),
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey),
+            hintStyle: const TextStyle(color: Colors.grey),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),

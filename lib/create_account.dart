@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:whatsapp/chats/chats_tab.dart';
 
 import 'package:whatsapp/methods.dart';
-
-import 'my_home_page.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({Key? key}) : super(key: key);
@@ -24,10 +22,10 @@ class _CreateAccountState extends State<CreateAccount> {
     return Scaffold(
       body: isLoading
           ? Center(
-              child: Container(
+              child: SizedBox(
                 height: size.height / 20,
                 width: size.height / 20,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             )
           : SingleChildScrollView(
@@ -39,23 +37,23 @@ class _CreateAccountState extends State<CreateAccount> {
                   Container(
                     alignment: Alignment.centerLeft,
                     width: size.width / 1.2,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_back_ios_new),
-                    ),
+                    // child: IconButton(
+                    //   onPressed: () {},
+                    //   icon: Icon(Icons.arrow_back_ios_new),
+                    // ),
                   ),
                   SizedBox(
                     height: size.height / 50,
                   ),
-                  Container(
+                  SizedBox(
                     width: size.width / 1.3,
-                    child: Text(
+                    child: const Text(
                       "Welcome",
                       style:
                           TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: size.width / 1.3,
                     child: const Text(
                       "Create Account to continue!",
@@ -78,8 +76,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child:
-                          field(size, "Email", Icons.account_box, _email)),
+                      child: field(size, "Email", Icons.account_box, _email)),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
@@ -96,7 +93,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: Text(
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                             color: Colors.blue,
@@ -126,11 +123,12 @@ class _CreateAccountState extends State<CreateAccount> {
               setState(() {
                 isLoading = false;
               });
-               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => MyHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const HomeScreen()));
               print("Account Created Sucessfull");
             } else {
               print("Login Failed");
+              //  return CreateAccount();
               setState(() {
                 isLoading = false;
               });
@@ -146,7 +144,7 @@ class _CreateAccountState extends State<CreateAccount> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: Colors.blue),
         alignment: Alignment.center,
-        child: Text(
+        child: const Text(
           "Create Account",
           style: TextStyle(
               color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
@@ -157,7 +155,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
   Widget field(
       Size size, String hintText, IconData icon, TextEditingController cont) {
-    return Container(
+    return SizedBox(
       height: size.height / 14,
       width: size.width / 1.2,
       child: TextField(
@@ -165,7 +163,7 @@ class _CreateAccountState extends State<CreateAccount> {
         decoration: InputDecoration(
             prefixIcon: Icon(icon),
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey),
+            hintStyle: const TextStyle(color: Colors.grey),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       ),
