@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../main.dart';
 
 class ChatRoom extends StatelessWidget {
   final Map<String, dynamic> userMap;
@@ -181,7 +184,13 @@ class ChatRoom extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                        onPressed: onSendMessage, icon: const Icon(Icons.send))
+                        onPressed: () {
+                          if (_message.text.isNotEmpty) {
+                            // showNotification(user1, user2, map);
+                            onSendMessage();
+                          }
+                        },
+                        icon: const Icon(Icons.send))
                   ],
                 ),
               ),
@@ -192,8 +201,27 @@ class ChatRoom extends StatelessWidget {
     );
   }
 
+  void showNotification(
+    String user1,
+    String user2,
+    Map<String, dynamic> map,
+  ) {
+    if (map['sendby'] != _auth.currentUser!.displayName) {
+      flutterLocalNotificationsPlugin.show(
+          0,
+          "$user1 sent a message",
+          _message.text,
+          NotificationDetails(
+              android: AndroidNotificationDetails(channel.id, channel.name,
+                  channelDescription: channel.description,
+                  importance: Importance.high,
+                  color: Colors.blue,
+                  playSound: true,
+                  icon: "@mipmap/ic_launcher")));
+    }
+  }
+
   Widget messages(Size size, Map<String, dynamic> map, BuildContext context) {
-    //  final bool sentByCurrentUser = map['sendby'] == _auth.currentUser!.displayName;
     return map['type'] == "text"
         ? Container(
             width: size.width,
@@ -260,9 +288,6 @@ class ChatRoom extends StatelessWidget {
             ),
           );
   }
-  // Widget otherUserMessages(Size size, Map<String, dynamic> map, BuildContext context) {
-
-  // };
 }
 
 class ShowImage extends StatelessWidget {

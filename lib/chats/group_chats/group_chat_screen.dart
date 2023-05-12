@@ -25,21 +25,37 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
     getAvailableGroups();
   }
 
-  void getAvailableGroups() async {
-    String uid = _auth.currentUser!.uid;
+  // void getAvailableGroups() async {
+  //   String uid = _auth.currentUser!.uid;
 
-    await _firestore
-        .collection('users')
-        .doc(uid)
-        .collection('groups')
-        .get()
-        .then((value) {
-      setState(() {
-        groupList = value.docs;
-        isLoading = false;
-      });
+  //   await _firestore
+  //       .collection('users')
+  //       .doc(uid)
+  //       .collection('groups')
+  //       .get()
+  //       .then((value) {
+  //     setState(() {
+  //       groupList = value.docs;
+  //       isLoading = false;
+  //     });
+  //   });
+  // }
+
+  void getAvailableGroups() async {
+  String uid = _auth.currentUser!.uid;
+
+  await _firestore
+      .collection('users')
+      .doc(uid)
+      .collection('groups')
+      .snapshots()
+      .listen((event) {
+    setState(() {
+      groupList = event.docs;
+      isLoading = false;
     });
-  }
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +72,24 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
               alignment: Alignment.center,
               child: const CircularProgressIndicator(),
             )
-          : ListView.builder(
-              itemCount: groupList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => GroupChatRoom())),
-                  leading: const Icon(Icons.group),
-                  title: Text(groupList[index]['name']),
-                );
-              },
-            ),
+          : groupList.isEmpty
+              ? const Center(
+                  child: Text("No Groups Created"),
+                )
+              : ListView.builder(
+                  itemCount: groupList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => GroupChatRoom(
+                                groupName: groupList[index]['name'],
+                                groupChatId: groupList[index]['id'],
+                              ))),
+                      leading: const Icon(Icons.group),
+                      title: Text(groupList[index]['name']),
+                    );
+                  },
+                ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.create),
         onPressed: () => Navigator.of(context)

@@ -21,12 +21,47 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
   @override
   void initState() {
     super.initState();
-    getCurretUserDetails();
+    getCurrentUserDetails();
   }
 
-  void getCurretUserDetails() async {
+  // void getCurretUserDetails() async {
+  //   await _firestore
+  //       .collection('user')
+  //       .doc(_auth.currentUser!.uid)
+  //       .get()
+  //       .then((map) {
+  //     setState(() {
+  //       membersList.add({
+  //         "name": map['name'],
+  //         "email": map['email'],
+  //         "uid": map['uid'],
+  //         "isAdmin": true
+  //       });
+  //     });
+  //   });
+  // }
+
+//   void getCurretUserDetails() async {
+//   DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
+//       .collection('user')
+//       .doc(_auth.currentUser!.uid)
+//       .get();
+//   if (snapshot.exists) {
+//     Map<String, dynamic> map = snapshot.data()!;
+//     setState(() {
+//       membersList.add({
+//         "name": map['name'],
+//         "email": map['email'],
+//         "uid": map['uid'],
+//         "isAdmin": true
+//       });
+//     });
+//   }
+// }
+
+  void getCurrentUserDetails() async {
     await _firestore
-        .collection('user')
+        .collection('users')
         .doc(_auth.currentUser!.uid)
         .get()
         .then((map) {
@@ -35,7 +70,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
           "name": map['name'],
           "email": map['email'],
           "uid": map['uid'],
-          "isAdmin": true
+          "isAdmin": true,
         });
       });
     });
@@ -83,7 +118,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
   }
 
   void onRemoveMembers(int index) {
-    if (membersList[index]['uid']!= _auth.currentUser!.uid) {
+    if (membersList[index]['uid'] != _auth.currentUser!.uid) {
       setState(() {
         membersList.removeAt(index);
       });
