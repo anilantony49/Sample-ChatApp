@@ -25,23 +25,23 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
     getAvailableGroups();
   }
 
-  // void getAvailableGroups() async {
-  //   String uid = _auth.currentUser!.uid;
-
-  //   await _firestore
-  //       .collection('users')
-  //       .doc(uid)
-  //       .collection('groups')
-  //       .get()
-  //       .then((value) {
-  //     setState(() {
-  //       groupList = value.docs;
-  //       isLoading = false;
-  //     });
-  //   });
-  // }
-
   void getAvailableGroups() async {
+    String uid = _auth.currentUser!.uid;
+
+    await _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('groups')
+        .get()
+        .then((value) {
+      setState(() {
+        groupList = value.docs;
+        isLoading = false;
+      });
+    });
+  }
+
+ /* void getAvailableGroups() async {
   String uid = _auth.currentUser!.uid;
 
   await _firestore
@@ -55,7 +55,7 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
       isLoading = false;
     });
   });
-}
+}*/
 
   @override
   Widget build(BuildContext context) {

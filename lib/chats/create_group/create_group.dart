@@ -18,17 +18,31 @@ class _CreateGroupState extends State<CreateGroup> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isLoading = false;
+  bool _isDisposed = false;
+  bool isMount = true;
+
+  @override
+  void dispose() {
+      _isDisposed = true;
+    _groupName.dispose();
+    super.dispose();
+  }
 
   void createGroup() async {
+    if (_isDisposed) {
+      return; // Check if the widget is disposed before calling setState
+    }
+
     setState(() {
       isLoading = true;
     });
+
     String groupId = const Uuid().v1();
 
-    await _firestore
-        .collection('groups')
-        .doc(groupId)
-        .set({"members": widget.membersList, "id": groupId});
+    await _firestore.collection('groups').doc(groupId).set({
+      "members": widget.membersList,
+      "id": groupId,
+    });
 
     for (int i = 0; i < widget.membersList.length; i++) {
       String uid = widget.membersList[i]['uid'];
@@ -38,17 +52,29 @@ class _CreateGroupState extends State<CreateGroup> {
           .doc(uid)
           .collection('groups')
           .doc(groupId)
-          .set({"name": _groupName.text, "id": groupId});
+          .set({
+        "name": _groupName.text,
+        "id": groupId,
+      });
     }
 
-    await _firestore.collection('groups').doc(groupId).collection('chats').add({
+    await _firestore
+        .collection('groups')
+        .doc(groupId)
+        .collection('chats')
+        .add({
       "message": "${_auth.currentUser!.displayName} Created This Group.",
       "type": "notify",
     });
 
+    if (_isDisposed) {
+      return; // Check if the widget is disposed before navigating
+    }
+
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false);
+      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      (route) => false,
+    );
   }
 
   @override

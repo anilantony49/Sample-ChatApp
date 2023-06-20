@@ -25,8 +25,7 @@ class _GroupInfoState extends State<GroupInfo> {
     getGroupDetails();
   }
 
-
- Future getGroupDetails() async {
+  Future getGroupDetails() async {
     await _firestore
         .collection('groups')
         .doc(widget.groupId)
@@ -39,19 +38,20 @@ class _GroupInfoState extends State<GroupInfo> {
       });
     });
   }
+
   bool checkAdmin() {
     bool isAdmin = false;
 
-    membersList.forEach((element) {
+    for (var element in membersList) {
       if (element['uid'] == _auth.currentUser!.uid) {
         isAdmin = element['isAdmin'];
       }
-    });
+    }
 
     return isAdmin;
   }
 
-    Future removeMembers(int index) async {
+  Future removeMembers(int index) async {
     String uid = membersList[index]['uid'];
 
     setState(() {
@@ -74,7 +74,8 @@ class _GroupInfoState extends State<GroupInfo> {
       });
     });
   }
-    void showDialogBox(int index) {
+
+  void showDialogBox(int index) {
     if (checkAdmin()) {
       if (_auth.currentUser!.uid != membersList[index]['uid']) {
         showDialog(
@@ -83,13 +84,11 @@ class _GroupInfoState extends State<GroupInfo> {
               return AlertDialog(
                 content: ListTile(
                   onTap: () {
-                     removeMembers(index);
-                   Navigator.of(context).pop();
+                    removeMembers(index);
+                    Navigator.of(context).pop();
                   },
                   title: const Text("Remove This Member"),
-                  
                 ),
-                
               );
             });
       }
@@ -125,8 +124,6 @@ class _GroupInfoState extends State<GroupInfo> {
       );
     }
   }
-
- 
 
   // void showRemoveDialog(int index) {
   //   showDialog(
@@ -279,22 +276,15 @@ class _GroupInfoState extends State<GroupInfo> {
                               return ListTile(
                                 onTap: () => showDialogBox(index),
                                 leading: const Icon(Icons.account_circle),
-                                title: Row(
-                                  children: [
-                                    Text(
-                                      membersList[index]['name'],
-                                      style: TextStyle(
-                                          fontSize: size.width / 22,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                     Text(membersList[index]['isAdmin']
-                                    ?"  (you)" 
-                                    : "")
-                                  ],
+                                title: Text(
+                                  membersList[index]['name'],
+                                  style: TextStyle(
+                                      fontSize: size.width / 22,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 subtitle: Text(membersList[index]['email']),
                                 trailing: Text(membersList[index]['isAdmin']
-                                    ?"Admin"
+                                    ? "Admin"
                                     : ""),
                               );
                             })),

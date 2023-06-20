@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../chats_tab.dart';
 import 'group_chat_screen.dart';
 
 class AddMembersINGroup extends StatefulWidget {
@@ -141,7 +140,7 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,                
+          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
               height: size.height / 20,

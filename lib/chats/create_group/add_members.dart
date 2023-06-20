@@ -24,40 +24,22 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
     getCurrentUserDetails();
   }
 
-  // void getCurretUserDetails() async {
-  //   await _firestore
-  //       .collection('user')
-  //       .doc(_auth.currentUser!.uid)
-  //       .get()
-  //       .then((map) {
-  //     setState(() {
-  //       membersList.add({
-  //         "name": map['name'],
-  //         "email": map['email'],
-  //         "uid": map['uid'],
-  //         "isAdmin": true
-  //       });
-  //     });
-  //   });
-  // }
-
-//   void getCurretUserDetails() async {
-//   DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
-//       .collection('user')
-//       .doc(_auth.currentUser!.uid)
-//       .get();
-//   if (snapshot.exists) {
-//     Map<String, dynamic> map = snapshot.data()!;
-//     setState(() {
-//       membersList.add({
-//         "name": map['name'],
-//         "email": map['email'],
-//         "uid": map['uid'],
-//         "isAdmin": true
-//       });
-//     });
-//   }
-// }
+  /*void getCurretUserDetails() async {
+    await _firestore
+        .collection('user')
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then((map) {
+      setState(() {
+        membersList.add({
+          "name": map['name'],
+          "email": map['email'],
+          "uid": map['uid'],
+          "isAdmin": true
+        });
+      });
+    });
+  }*/
 
   void getCurrentUserDetails() async {
     await _firestore
@@ -76,23 +58,30 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
     });
   }
 
-  void onSearch() async {
-    setState(() {
-      isLoading = true;
-    });
+void onSearch() async {
+  setState(() {
+    isLoading = true;
+  });
 
-    await _firestore
-        .collection('users')
-        .where("email", isEqualTo: _search.text)
-        .get()
-        .then((value) {
-      setState(() {
-        userMap = value.docs[0].data();
-        isLoading = false;
-      });
-      print(userMap);
+  final QuerySnapshot<Map<String, dynamic>> value = await _firestore
+      .collection('users')
+      .where("email", isEqualTo: _search.text)
+      .get();
+
+  if (value.docs.isNotEmpty) {
+    setState(() {
+      userMap = value.docs[0].data();
+      isLoading = false;
+    });
+    print(userMap);
+  } else {
+    setState(() {
+      isLoading = false;
+      userMap = null;
     });
   }
+}
+
 
   void onResultTap() {
     bool isAlreadyExist = false;
@@ -111,8 +100,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
           "uid": userMap!['uid'],
           "isAdmin": false,
         });
-
-        userMap = null;
+         userMap = null;
       });
     }
   }
@@ -183,7 +171,13 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
                     child: const CircularProgressIndicator(),
                   )
                 : ElevatedButton(
-                    onPressed: onSearch,
+                    onPressed: () {
+                      if (membersList.isEmpty) {
+                        return;
+                      } else {
+                        onSearch();
+                      }
+                    },
                     child: const Text("Search"),
                   ),
             userMap != null
